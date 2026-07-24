@@ -1,0 +1,71 @@
+import turtle
+
+t = turtle.Turtle()
+
+l_list = [200*(2**n) for n in range(0, -6, -1)]
+clr_list = ["red", "blue", "green", "magenta", "teal", "purple"]
+
+
+# square of length l at (x, y)
+
+def square(x, y, level):
+  # square(x +l/4, y+3*l/4, l/2)
+  l = l_list[level]
+
+  t.color(clr_list[level])
+
+  
+  t.penup()
+  t.goto(x, y)
+
+  t.pendown()
+  if level < 3:
+    t.setheading(20)
+  else:
+    t.setheading(-20)
+  # draw square
+  t.begin_fill()
+  for _ in range(4):
+    t.forward(l)
+    t.left(90)
+
+  
+  
+  #t.goto(x+l, y)
+  #t.goto(x+l, y+l)
+  #t.goto(x, y+l)
+  #t.goto(x, y)
+  t.end_fill() 
+
+  if level < 5:
+    #square(x + 3/4*l, y+ 1/4, level + l)
+    #square(x - 1/4, y+ 1/4, level + l)
+
+    square(x + 9/8*l, y - 3/4*l, level + l)
+    square(x - 5/8*l, y - 3/4*l, level + l)
+    #square(x + 1/4*l, y - 3/4*l, level + l)
+
+def branch(sz, level):
+  if level > 0:
+    t.forward(sz)
+    t.right(30)
+    branch(0.8*sz, level -1)
+    t.right(-60)
+    branch(0.8*sz, level -1)
+    t.right(30)
+    t.forward(-sz)
+
+# Calling the functions
+
+t.goto(0, 0)
+square(-100, -100, 200)
+
+input()
+t.speed(0)
+t.clear()
+t.penup()
+t.goto(0, -150)
+t.pendown()
+t.setheading(90)
+
+branch(80, 10)
