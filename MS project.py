@@ -17,12 +17,14 @@ def reset_board():
         buttons[kk][jj].config(bg = "#d9d9d9") 
 
   place_mines()
-  update_field
+  update_field()
 
 # Define the frames and the widgets 
 
 ResetButton = tk.Button(controlFrame, text = "R", command = reset_board)
 ResetButton.grid(row = 0, column = 1)
+
+Nmines = 10
 
 MinesLabel = tk.Label(controlFrame, text = str(Nmines), font = ("Times New Roman", 12), padx = 5, width = 3, justify = "center", bg = "red")
 MinesLabel.grid(row = 0, column = 0)
@@ -126,8 +128,8 @@ def OpenUp(r, c):
 
   if buttons[r][c]["text"] == "M":
     # A mine
-   minesDone = MinesLabel.cget("text")
-  MinesLabel.configure(text = str(int(minesDone)+1))
+    minesDone = MinesLabel.cget("text")
+    MinesLabel.configure(text = str(int(minesDone)+1))
 
   buttons[r][c]['state'] = 'disabled'
   buttons[r][c].config(relief=tk.SUNKEN)
@@ -174,18 +176,6 @@ def create_board():
       b["font"] = 40
       b['text'] = ""
       buttons[kk].append(b)
-      
-
-# Create a Nrows x Ncols grid of buttons
-for kk in range(Nrows):
-  buttons.append([])
-  for jj in range(Ncols):
-    b = tk.Button(command = lambda r=kk, c=jj : clickOn(r, c))
-    b.grid(row=kk, column = jj)
-    b["width"] = 2
-    b["font"] = 40
-    b['text'] = ' '
-    buttons[kk].append(b)
 
 
 
@@ -218,16 +208,16 @@ def update_field():
       field[kk][jj] = 0
 
   for location in locations:
-   loc_xy = divmod(location, Ncols)
-   field[loc_xy[0]][loc_xy[1]] = 9; 
+    loc_xy = divmod(location, Ncols)
+    field[loc_xy[0]][loc_xy[1]] = 9; 
 
-  # Update the field for this location 
-  # find neighbors
-  nn = find_neighbors(loc_xy[0], loc_xy[1])
+    # Update the field for this location 
+    # find neighbors
+    nn = find_neighbors(loc_xy[0], loc_xy[1])
 
-  for neighbors in nn:
-    if field[neighbors[0]][neighbors[1]] != 9:
-      field[neighbors[0]][neighbors[1]] += 1
+    for neighbors in nn:
+      if field[neighbors[0]][neighbors[1]] != 9:
+        field[neighbors[0]][neighbors[1]] += 1
 
 
 create_board()
@@ -235,7 +225,7 @@ place_mines()
 update_field()
 
   
-
+tk.mainloop()
     
 
 
